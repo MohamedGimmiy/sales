@@ -32,22 +32,31 @@
             @csrf
             <div class="form-group">
                 <label for="اسم الشركة">اسم الشركة</label>
-                <input type="text" name="system_name" id="system_name" class="form-control" required placeholder="ادخل اسم الشركة" value="{{ old('system_name',$data['system_name']) }}">
+                <input type="text" name="system_name" id="system_name" class="form-control"  placeholder="ادخل اسم الشركة" value="{{ old('system_name',$data['system_name']) }}">
+                @error('system_name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             </div>
             <div class="form-group">
                 <label for="اسم الشركة">عنوان الشركة</label>
-                <input type="text" name="address" id="address" class="form-control" required placeholder="ادخل عنوان الشركة" value="{{ old('address',$data['address']) }}">
+                <input type="text" name="address" id="address" class="form-control"  placeholder="ادخل عنوان الشركة" value="{{ old('address',$data['address']) }}">
+                @error('address')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             </div>
             <div class="form-group">
-                <label for="اسم الشركة">هاتف الشركة</label>
-                <input type="text" name="phone" id="phone" class="form-control" required placeholder="ادخل هاتف الشركة" value="{{ old('phone',$data['phone']) }}">
+                <label >هاتف الشركة</label>
+                <input type="text" name="phone" id="phone" class="form-control"  placeholder="ادخل هاتف الشركة" value="{{ old('phone',$data['phone']) }}">
+                @error('phone')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
             </div>
             <div class="form-group">
-                <label for="اسم الشركة">رسالة تنبيه اعلى الشاشة</label>
+                <label >رسالة تنبيه اعلى الشاشة</label>
                 <input type="text" name="general_alert" id="general_alert" class="form-control" placeholder="رسالة تنبية اعلى الشاشة" value="{{ old('general_alert',$data['general_alert']) }}">
             </div>
             <div class="form-group" >
-                <label for="اسم الشركة">شعار الشركة</label>
+                <label >شعار الشركة</label>
                 <div class="image">
                     <img src="{{ asset($data['photo']) }}" alt="لوجو الشركة" class="custom_img">
                     <button id="update_image" class="btn btn-sm btn-danger">تغيير الصورة</button>

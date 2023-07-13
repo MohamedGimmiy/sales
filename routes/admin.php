@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Admin_panel_settingsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\TreasuresController;
 use App\Models\Admin_panel_settings;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+define('PAGINATION_COUNT',1);
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'], function(){
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout',[LoginController::class, 'logout'])->name('admin.logout');
@@ -24,7 +26,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
     Route::get('/adminpanelsetting/index',[Admin_panel_settingsController::class, 'index'])->name('admin.adminPanelsetting.index');
     Route::get('/adminpanelsetting/edit',[Admin_panel_settingsController::class, 'edit'])->name('admin.adminPanelsetting.edit');
     Route::post('/adminpanelsetting/update',[Admin_panel_settingsController::class, 'update'])->name('admin.adminPanelsetting.update');
+    /*  start treasures  */
+    Route::get('/treasures/index',[TreasuresController::class, 'index'])->name('admin.treasures.index');
 
+
+    /*  end  treasures */
 
 });
 

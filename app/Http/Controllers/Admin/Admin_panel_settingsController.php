@@ -48,7 +48,7 @@ class Admin_panel_settingsController extends Controller
                 }
             }
             $admin_panel_setting->save();
-            return redirect()->route('admin.adminPanelsetting.index')->with(['sucess' => 'تم تحديث البيانات بنجاح']);
+            return redirect()->route('admin.adminPanelsetting.index')->with(['success' => 'تم تحديث البيانات بنجاح']);
 
 
         } catch (\Exception $ex) {
