@@ -22,7 +22,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">بيانات الضبط العام</h3>
+          <h3 class="card-title card_title_center">بيانات الضبط العام</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -62,7 +62,7 @@
                         <td class="width30">لوجو الشركة</td>
                         <td>
                             <div class="image">
-                                <img src="{{ asset('assets/admin/uploads') . '/' . $data['photo'] }}" alt="لوجو الشركة" class="custom_img">
+                                <img src="{{ asset( $data['photo'])  }}" alt="لوجو الشركة" class="custom_img">
                             </div>
                         </td>
                     </tr>
@@ -73,7 +73,7 @@
                                 @php
                                     $dt = new DateTime($data['updated_at']);
                                     $date = $dt->format('Y-m-d');
-                                    $time = $dt->format('H:i');
+                                    $time = $dt->format('h:i');
                                     $newDateTime = date("A",strtotime($time));
                                     $newDateTimeType = (($newDateTime == 'AM')? 'صباحا' : 'مساءا')
                                 @endphp
@@ -85,6 +85,7 @@
                             @else
                             لا يوجد تحديث
                             @endif
+                            <a class="btn btn-small btn-success" href="{{ route('admin.adminPanelsetting.edit') }}">تعديل</a>
                         </td>
                     </tr>
               </table>
