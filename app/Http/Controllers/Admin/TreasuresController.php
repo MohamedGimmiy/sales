@@ -7,6 +7,7 @@ use App\Http\Requests\treasuresRequest;
 use App\Models\Admin;
 use App\Models\treasures;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TreasuresController extends Controller
 {
@@ -31,6 +32,10 @@ class TreasuresController extends Controller
     function store(treasuresRequest $request) {
         try {
 
+            $request->validate([
+                'name' => 'unique:treasures,name'
+            ]);
+
             $check_if_master = treasures::where(['is_master'=> 1,'com_code' =>auth()->user()->com_code])->first();
             if($check_if_master != null){
                 return redirect()->route('admin.treasures.create')->with(['error' => 'عفوا يوجد خزنة رئيسية ولا يمكن تسجيلها مرة اخرى']);
@@ -50,8 +55,50 @@ class TreasuresController extends Controller
 
 
         } catch (\Exception $ex) {
-            return redirect()->route('admin.treasures.create')->with(['error' => 'حدث خطأ ما '.$ex->getMessage()]);
+            return back()->with(['error' => 'حدث خطأ ما '.$ex->getMessage()])->withInput();
 
+        }
+    }
+
+    public function edit($id){
+        $data = treasures::findOrFail($id);
+        return view('admin.treasures.edit',compact('data'));
+    }
+
+    function update($id, treasuresRequest $request) {
+        try {
+            $com_code = auth()->user()->com_code;
+            $data = treasures::findOrFail($id);
+            if(empty($data)){
+                return back()->with(['error' => 'عفوا غير قادر على الوصول للبيانات المطلوبة ']);
+            }
+
+            $request->validate([
+                'name' => [Rule::unique('treasures')->ignore($id)]
+            ],[
+                'name.unique' => 'اسم الخزنة موجود بالفعل'
+            ]);
+
+            if($request->is_master == 1){
+                $check_if_master = treasures::where(['is_master'=> 1,'com_code' =>auth()->user()->com_code])->where('id','!=',$id)->first();
+                if($check_if_master != null){
+                    return back()->with(['error' => 'الخزنة الرئيسية موجودة بالفعل '])->withInput();
+
+                }
+            }
+
+            $dataToUpdate['name'] = $request->name;
+            $dataToUpdate['active'] = $request->active;
+            $dataToUpdate['is_master']  = $request->is_master;
+            $dataToUpdate['last_isal_exchange'] = $request->last_isal_exchange;
+            $dataToUpdate['last_isal_collect'] = $request->last_isal_collect;
+            $dataToUpdate['updated_by'] = auth()->id();
+            $dataToUpdate['updated_at']= date('Y-m-d H:i:s');
+            treasures::where(['id' => $id,'com_code' => $com_code])->update($dataToUpdate);
+            return redirect()->route('admin.treasures.index')->with(['success' => 'تم تعديل الخزنة بنجاح']);
+
+        } catch (\Exception $ex) {
+            return back()->with(['error' => 'حدث خطأ ما '.$ex->getMessage()])->withInput();
         }
     }
 }

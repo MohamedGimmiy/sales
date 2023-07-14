@@ -30,6 +30,8 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
     Route::get('/treasures/index',[TreasuresController::class, 'index'])->name('admin.treasures.index');
     Route::get('/treasures/create',[TreasuresController::class, 'create'])->name('admin.treasures.create');
     Route::post('/treasures/store',[TreasuresController::class, 'store'])->name('admin.treasures.store');
+    Route::get('/treasures/edit/{id}',[TreasuresController::class, 'edit'])->name('admin.treasures.edit');
+    Route::post('/treasures/update/{id}',[TreasuresController::class, 'update'])->name('admin.treasures.update');
 
 
     /*  end  treasures */

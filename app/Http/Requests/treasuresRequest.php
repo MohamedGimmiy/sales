@@ -24,7 +24,7 @@ class treasuresRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:treasures,name',
+            'name' => 'required',
             'is_master' => 'required',
             'last_isal_exchange' => 'required|integer|min:0',
             'last_isal_collect' => 'required|integer|min:0',
