@@ -23,20 +23,20 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title card_title_center">بيانات الخزن </h3>
+          <a href="{{ route('admin.treasures.create') }}" class="btn btn-success btn-sm">اضافة خزنة</a>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
             @if (@isset($data) && !@empty($data))
             <table id="example2" class="table table-bordered table-hover">
-                <thead>
+                <thead class="custom_thead">
                     <th>مسلسل</th>
                     <th>اسم الخزنة</th>
                     <th>هل رئيسية</th>
                     <th>اخر ايصال صرف</th>
                     <th>اخر ايصال تحصيل</th>
                     <th>حالة التفعيل</th>
-                    <th>تاريخ الاضافة</th>
-                    <th>تاريخ التحديث</th>
+                    <th></th>
                 </thead>
                 <tbody>
                     @foreach ($data as $info)
@@ -64,38 +64,8 @@
                                 @endif
                             </td>
                             <td>
-                                @php
-                                    $dt = new DateTime($info['created_at']);
-                                    $date = $dt->format('Y-m-d');
-                                    $time = $dt->format('h:i');
-                                    $newDateTime = date("A",strtotime($time));
-                                    $newDateTimeType = (($newDateTime == 'AM')? 'صباحا' : 'مساءا')
-                                @endphp
-                                {{ $date }}
-                                {{ $time }}
-                                {{ $newDateTimeType }}
-                                بواسطة
-                                {{ $info['added_by_name'] }}
-                            </td>
-
-                            <td>
-
-                                @if ($info['updated_by'] > 0 and $info['updated_by'] != null)
-                                @php
-                                    $dt = new DateTime($info['updated_at']);
-                                    $date = $dt->format('Y-m-d');
-                                    $time = $dt->format('h:i');
-                                    $newDateTime = date("A",strtotime($time));
-                                    $newDateTimeType = (($newDateTime == 'AM')? 'صباحا' : 'مساءا')
-                                @endphp
-                                {{ $date }}
-                                {{ $time }}
-                                {{ $newDateTimeType }}
-                                بواسطة
-                                {{ $info['updated_by_admin'] }}
-                            @else
-                            لا يوجد تحديث
-                            @endif
+                                <button class="btn btn-primary btn-sm">تعديل</button>
+                                <button data-id="{{ $info->id }}" class="btn btn-info btn-sm">المزيد</button>
                             </td>
                         </tr>
                     @endforeach

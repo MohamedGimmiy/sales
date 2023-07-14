@@ -12,3 +12,8 @@
     width: 100%;
     text-align: center !important;
 }
+
+.custom_thead{
+    background-color: #233490;
+    color: #fff;
+}
