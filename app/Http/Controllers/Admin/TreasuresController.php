@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\treasuresRequest;
 use App\Models\Admin;
 use App\Models\treasures;
+use App\Models\treasures_delivery;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -101,4 +102,48 @@ class TreasuresController extends Controller
             return back()->with(['error' => 'حدث خطأ ما '.$ex->getMessage()])->withInput();
         }
     }
+
+    public function ajax_search(Request $request){
+        if($request->ajax()){
+            $search_by_text = $request->searchByText;
+            $data = treasures::where('name','LIKE',"%{$search_by_text}%")->orderBy('id','DESC')->paginate(PAGINATION_COUNT);
+            return view('admin.treasures.ajax_search',compact('data'));
+        }
+    }
+
+
+    public function details($id){
+        try{
+            $com_code = auth()->user()->com_code;
+            $data = treasures::findOrFail($id);
+            if(empty($data)){
+                return back()->with(['error' => 'عفوا غير قادر على الوصول للبيانات المطلوبة ']);
+            }
+
+            $data['added_by_admin'] = Admin::where('id', $data['added_by'])->value('name');
+
+            if($data['updated_by'] > 0 and $data['updated_by'] != null){
+                $data['updated_by_admin'] = Admin::where('id', $data['updated_by'])->value('name');
+            }
+
+
+            $treasures_delivery = treasures_delivery::select()->where(['treasures_id'=>$id])->orderBy('id','DESC')->get();
+            if(!empty($treasures_delivery)){
+                foreach($treasures_delivery as $info){
+                    $info->name = treasures::where('id',$info->treasures_can_delivery_id)->value('name');
+                    $info['updated_by_admin'] = Admin::where('id', $info['added_by'])->value('name');
+
+                }
+            }
+
+
+            return view('admin.treasures.details',compact('treasures_delivery','data'));
+
+        } catch (\Exception $ex) {
+            return back()->with(['error' => 'حدث خطأ ما '.$ex->getMessage()])->withInput();
+        }
+    }
+
+
+
 }

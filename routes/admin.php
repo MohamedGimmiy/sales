@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('PAGINATION_COUNT',11);
+define('PAGINATION_COUNT',1);
 Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'], function(){
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout',[LoginController::class, 'logout'])->name('admin.logout');
@@ -32,6 +32,8 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
     Route::post('/treasures/store',[TreasuresController::class, 'store'])->name('admin.treasures.store');
     Route::get('/treasures/edit/{id}',[TreasuresController::class, 'edit'])->name('admin.treasures.edit');
     Route::post('/treasures/update/{id}',[TreasuresController::class, 'update'])->name('admin.treasures.update');
+    Route::post('/treasures/ajax_search',[TreasuresController::class, 'ajax_search'])->name('admin.treasures.ajax_search');
+    Route::get('/treasures/details/{id}',[TreasuresController::class, 'details'])->name('admin.treasures.details');
 
 
     /*  end  treasures */

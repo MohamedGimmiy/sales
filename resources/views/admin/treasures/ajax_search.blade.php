@@ -1,39 +1,4 @@
-@extends('layouts\admin')
-
-@section('title')
-الخزن
-@endsection
-
-@section('contentheader')
-الخزن
-@endsection
-
-@section('contentheaderlink')
-<a href="{{ route('admin.treasures.index') }}">الخزن</a>
-@endsection
-
-@section('contentheaderactive')
-عرض
-@endsection
-
-@section('content')
-<div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title card_title_center">بيانات الخزن </h3>
-          <a href="{{ route('admin.treasures.create') }}" class="btn btn-success btn-sm">اضافة خزنة</a>
-          <input type="hidden" id="token_search" value="{{ csrf_token() }}">
-          <input type="hidden" id="ajax_search_url" value="{{ route('admin.treasures.ajax_search') }}">
-
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <div class="col-md-4">
-                <input type="text" id="search_by_text" placeholder="بحث بالاسم" class="form-control">
-                <br>
-            </div>
-            @if (@isset($data) && !@empty($data))
+@if (@isset($data) && !@empty($data))
             <div id="ajax_response_searchDiv">
                 <table id="example2" class="table table-bordered table-hover">
                     <thead class="custom_thead">
@@ -72,7 +37,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.treasures.edit',$info->id) }}" class="btn btn-primary btn-sm">تعديل</a>
-                                    <a href="{{ route('admin.treasures.details',$info->id) }}"class="btn btn-info btn-sm">المزيد</a>
+                                    <button data-id="{{ $info->id }}" class="btn btn-info btn-sm">المزيد</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -80,23 +45,12 @@
                     </tbody>
                 </table>
                 <br>
-                {{ $data->links() }}
+                <div class="col-md-12" id="ajax_pagination_in_search">
+                    {{ $data->links() }}
+                </div>
             </div>
             @else
             <div class="alert alert-danger">
                 عفوا لا توجد بيانات لعرضها
             </div>
             @endif
-
-        </div>
-      </div>
-    </div>
-</div>
-
-
-@endsection
-
-@section('scripts')
-<script src="{{ asset('assets/admin/js/treasures.js') }}"></script>
-
-@endsection
