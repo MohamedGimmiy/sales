@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Admin_panel_settingsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\Sales_materials_typesController;
+use App\Http\Controllers\Admin\StoresController;
 use App\Http\Controllers\Admin\TreasuresController;
 use App\Models\Admin_panel_settings;
 use Illuminate\Support\Facades\Route;
@@ -49,12 +50,17 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
     Route::post('/sales_materials_types/update/{id}',[sales_materials_typesController::class, 'update'])->name('admin.sales_materials_types.update');
     Route::get('/sales_materials_types/delete/{id}',[sales_materials_typesController::class, 'delete'])->name('admin.sales_materials_types.delete');
 
-
-
-
-
-
     /*  end  sales_materials_types */
+
+        /*  start stores  */
+        Route::get('/stores/index',[StoresController::class, 'index'])->name('admin.stores.index');
+        Route::get('/stores/create',[StoresController::class, 'create'])->name('admin.stores.create');
+        Route::post('/stores/store',[StoresController::class, 'store'])->name('admin.stores.store');
+        Route::get('/stores/edit/{id}',[StoresController::class, 'edit'])->name('admin.stores.edit');
+        Route::post('/stores/update/{id}',[StoresController::class, 'update'])->name('admin.stores.update');
+        Route::get('/stores/delete/{id}',[StoresController::class, 'delete'])->name('admin.stores.delete');
+
+        /*  end  stores */
 
 });
 
