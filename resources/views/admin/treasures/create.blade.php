@@ -72,7 +72,7 @@
             @enderror
             </div>
             <div class="form-group text-center">
-                <button class="btn btn-sm btn-primary" type="submit">حفظ التعديلات</button>
+                <button class="btn btn-sm btn-primary" type="submit">اضافة</button>
                 <a href="{{ route('admin.treasures.index') }}" class="btn btn-sm btn-danger" >الغاء</a>
             </div>
             </form>

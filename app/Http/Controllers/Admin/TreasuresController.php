@@ -74,11 +74,13 @@ class TreasuresController extends Controller
                 return back()->with(['error' => 'عفوا غير قادر على الوصول للبيانات المطلوبة ']);
             }
 
-            $request->validate([
-                'name' => [Rule::unique('treasures')->ignore($id)]
-            ],[
-                'name.unique' => 'اسم الخزنة موجود بالفعل'
-            ]);
+            $check_if_exists = treasures::where(['name'=> $request->name,
+            'com_code' =>auth()->user()->com_code])->where('id' ,'!=',$id)->first();
+
+
+            if($check_if_exists != null){
+                return back()->with(['error' => 'اسم الخزنة موجود مسبقا'])->withInput();
+            }
 
             if($request->is_master == 1){
                 $check_if_master = treasures::where(['is_master'=> 1,'com_code' =>auth()->user()->com_code])->where('id','!=',$id)->first();
