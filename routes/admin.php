@@ -34,6 +34,9 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
     Route::post('/treasures/update/{id}',[TreasuresController::class, 'update'])->name('admin.treasures.update');
     Route::post('/treasures/ajax_search',[TreasuresController::class, 'ajax_search'])->name('admin.treasures.ajax_search');
     Route::get('/treasures/details/{id}',[TreasuresController::class, 'details'])->name('admin.treasures.details');
+    Route::get('/treasures/add_treasures_delivery/{id}',[TreasuresController::class, 'add_treasures_delivery'])->name('admin.treasures.add_treasures_delivery');
+    Route::post('/treasures/store_treasures_delivery/{id}',[TreasuresController::class, 'store_treasures_delivery'])->name('admin.treasures.store_treasures_delivery');
+    Route::get('/treasures/delete_treasures_delivery/{id}',[TreasuresController::class, 'delete_treasures_delivery'])->name('admin.treasures.delete_treasures_delivery');
 
 
     /*  end  treasures */

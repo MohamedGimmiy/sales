@@ -144,6 +144,67 @@ class TreasuresController extends Controller
         }
     }
 
+    public function add_treasures_delivery($id){
+        try{
 
+            $com_code = auth()->user()->com_code;
+            $data = treasures::select('id','name')->find($id);
+            if(empty($data)){
+                return redirect()->route('admin.treasures.index')->with('error','لا توجد بيانات');
+            }
+            $treasures = treasures::Select('id','name')->where(['com_code'=>$com_code,'active'=>1])->get();
+            return view('admin.treasures.add_treasures_delivery',compact('data','treasures'));
+
+        } catch(\Exception $e){
+            return back()->with(['error' => 'حدث خطأ ما '.$e->getMessage()])->withInput();
+
+        }
+
+    }
+
+    public function store_treasures_delivery($id,Request $request){
+
+        $request->validate([
+            'treasures_can_delivery_id' => 'required'
+        ],[
+            'treasures_can_delivery_id.required' => 'برجاء ادخال الخزنة المستلمة'
+        ]);
+        try{
+            $com_code = auth()->user()->com_code;
+            $data = treasures::select('id','name')->find($id);
+            if(empty($data)){
+                return redirect()->route('admin.treasures.index')->with('error','لا توجد بيانات');
+            }
+            $checkIfExists = treasures_delivery::where(['treasures_id'=> $id,
+            'treasures_can_delivery_id'=> $request->treasures_can_delivery_id, 'com_code'=> $com_code])->first();
+             if($checkIfExists != null){
+                return back()->with('error','عفوا هذه الخزنة مسجلة من قبل')->withInput();
+             }
+
+             $data_insert_details['treasures_id'] = $id;
+             $data_insert_details['treasures_can_delivery_id'] = $request->treasures_can_delivery_id;
+             $data_insert_details['created_at'] = date('Y-m-d H:i:s');
+             $data_insert_details['added_by'] = auth()->user()->id;
+             $data_insert_details['com_code'] = $com_code;
+             treasures_delivery::create($data_insert_details);
+
+             return redirect()->route('admin.treasures.details',$id)->with('success','تم تسجيل البيانات بنجاح');
+        } catch(\Exception $e){
+            return back()->with(['error' => 'حدث خطأ ما '.$e->getMessage()])->withInput();
+
+        }
+    }
+
+    public function delete_treasures_delivery($id){
+
+        try{
+            treasures_delivery::find($id)->delete();
+            return back()->with('success','تم حذف الخزنة بنجاح');
+        }
+        catch(\Exception $e){
+            return back()->with(['error' => 'حدث خطأ ما '.$e->getMessage()])->withInput();
+
+        }
+    }
 
 }

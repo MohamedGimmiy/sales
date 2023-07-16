@@ -103,7 +103,7 @@
               <div class="card-header">
                 <h3 class="card-title card_title_center">الخزن الفرعية التى سوف تسلم عهدتها الى الخزنة ({{ $data['name'] }})
 
-                    <a href="#" class="btn btn-sm btn-primary">اضافة جديد</a>
+                    <a href="{{ route('admin.treasures.add_treasures_delivery', $data['id']) }}" class="btn btn-sm btn-primary">اضافة جديد</a>
                 </h3>
             </div>
               @if (@isset($treasures_delivery) && !@empty($treasures_delivery))
@@ -121,7 +121,6 @@
                         <tr>
                             <td>{{ $loop->index+1 }}</td>
                             <td>{{ $info->name }}</td>
-                            <td>
                                 <td>
                                     @php
                                         $dt = new DateTime($info['created_at']);
@@ -137,7 +136,7 @@
                                     {{ $info['added_by_admin'] }}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                                <a onclick="return confirm('هل متأكد من حذفها؟')" href="{{ route('admin.treasures.delete_treasures_delivery',$info->id) }}" class="btn btn-sm btn-danger">حذف</a>
                             </td>
                             </td>
                         </tr>
