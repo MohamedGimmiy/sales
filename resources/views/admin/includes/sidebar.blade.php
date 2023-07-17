@@ -57,5 +57,13 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.uoms.index') }}" class="nav-link">
+                  *
+                  <p>
+                    بيانات الوحدات
+                  </p>
+                </a>
+              </li>
         </ul>
     </aside>
