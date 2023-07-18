@@ -95,7 +95,7 @@ class InvUomsController extends Controller
             $search_by_text = $request->searchByText;
             $is_master_search = $request->is_master_search;
 
-            if($is_master_search == 'all' || $search_by_text == ''){
+            if($is_master_search == 'all'){
                 $field1 = 'id';
                 $operator1 = '>';
                 $value = 0;
@@ -103,7 +103,7 @@ class InvUomsController extends Controller
                 $field1 = 'is_master';
                 $operator1 = '=';
                 $value = $is_master_search;
-            }
+            } 
 
             $data = Inv_uom::where('name','LIKE',"%{$search_by_text}%")->where($field1,$operator1,$value)->orderBy('id','DESC')->paginate(PAGINATION_COUNT);
             if(!empty($data)){

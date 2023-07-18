@@ -65,5 +65,13 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('inv_itemcard_categories.index') }}" class="nav-link">
+                  *
+                  <p>
+                     فئات الاصناف
+                  </p>
+                </a>
+              </li>
         </ul>
     </aside>

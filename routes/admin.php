@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Admin_panel_settingsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Inv_itemcard_categoriesController;
 use App\Http\Controllers\Admin\InvUomsController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\Sales_materials_typesController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 define('PAGINATION_COUNT',20);
-Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'], function(){
+Route::group(['prefix'=>'admin','middleware' =>'auth:admin'], function(){
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout',[LoginController::class, 'logout'])->name('admin.logout');
 
@@ -73,6 +74,15 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin','middleware' =>'auth:admin'
                 Route::post('/uoms/ajax_search',[InvUomsController::class, 'ajax_search'])->name('admin.uoms.ajax_search');
 
         /*  end  uoms */
+
+
+        /*  start inv_itemcard_categories  */
+            Route::get('/inv_itemcard_categories/{id}',[Inv_itemcard_categoriesController::class, 'delete'])->name('inv_itemcard_categories.delete');
+
+            Route::resource('/inv_itemcard_categories', Inv_itemcard_categoriesController::class);
+
+        /*  end inv_itemcard_categories  */
+
 
 });
 
