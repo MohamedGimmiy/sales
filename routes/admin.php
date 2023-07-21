@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Admin_panel_settingsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Inv_itemcard_categoriesController;
+use App\Http\Controllers\Admin\InvItemCardController;
 use App\Http\Controllers\Admin\InvUomsController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\Sales_materials_typesController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('PAGINATION_COUNT',20);
+define('PAGINATION_COUNT',1);
 Route::group(['prefix'=>'admin','middleware' =>'auth:admin'], function(){
     Route::get('/',[DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('logout',[LoginController::class, 'logout'])->name('admin.logout');
@@ -83,6 +84,15 @@ Route::group(['prefix'=>'admin','middleware' =>'auth:admin'], function(){
 
         /*  end inv_itemcard_categories  */
 
+                /*  start Item card  */
+                Route::get('/itemCard/index',[InvItemCardController::class, 'index'])->name('admin.itemCard.index');
+                Route::get('/itemCard/create',[InvItemCardController::class, 'create'])->name('admin.itemCard.create');
+                Route::post('/itemCard/store',[InvItemCardController::class, 'store'])->name('admin.itemCard.store');
+                Route::get('/itemCard/edit/{id}',[InvItemCardController::class, 'edit'])->name('admin.itemCard.edit');
+                Route::post('/itemCard/update/{id}',[InvItemCardController::class, 'update'])->name('admin.itemCard.update');
+                Route::get('/itemCard/delete/{id}',[InvItemCardController::class, 'delete'])->name('admin.itemCard.delete');
+                Route::post('/itemCard/ajax_search',[InvItemCardController::class, 'ajax_search'])->name('admin.itemCard.ajax_search');
+                /*  end  Item card */
 
 });
 

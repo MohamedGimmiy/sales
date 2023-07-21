@@ -73,5 +73,13 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('admin.itemCard.index') }}" class="nav-link">
+                  *
+                  <p>
+                      الاصناف
+                  </p>
+                </a>
+              </li>
         </ul>
     </aside>
