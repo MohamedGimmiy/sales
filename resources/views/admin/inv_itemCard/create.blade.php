@@ -82,6 +82,23 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
+                            <label for=""> الصنف الاب له</label>
+                            <select name="parent_inv_itemcard_id" id="parent_inv_itemcard_id" class="form-control">
+                                <option value="0"  selected> هو اب</option>
+                                @if (@isset($item_card_data) && !@empty($item_card_data))
+                                    @foreach ($item_card_data as $info)
+                                        <option value="{{ old('parent_inv_itemcard_id', $info->id) }}">
+                                            {{ $info->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('parent_inv_itemcard_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <label for=""> وحدة القياس الاب</label>
                             <select name="uom_id" id="uom_id" class="form-control">
                                 <option value="" disabled selected>اختر الوحدة</option>
@@ -110,7 +127,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 " style="display: none;" id="retail_uom_idDiv">
+                    <div class="col-md-4 " @if (old('does_has_retailunit') ==null) style="display: none;" @endif  id="retail_uom_idDiv">
 
                         <div class="form-group">
                             <label for="">وحدة قياس التجزئة الابن بالنسبة للاب (<span
@@ -123,13 +140,12 @@
                                     @endforeach
                                 @endif
                             </select>
-                            @error('retial_uom_id')
+                            @error('retail_uom_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_retail_counter" style="display: none;">
-
+                    <div class="col-md-4 related_retail_counter" @if (old('retail_uom_id') == null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">عدد وحدات التجزئة بالنسبة للاب (<span
                                     class="parentuomname"></span>)</label>
@@ -142,7 +158,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 related_parent_counter" style="display: none;">
+                    <div class="col-md-4 related_parent_counter" @if (old('uom_id') == null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر القطاعى بوحدة(<span
                                     class="parentuomname"></span>)</label>
@@ -154,7 +170,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_parent_counter" style="display: none;">
+                    <div class="col-md-4 related_parent_counter"@if (old('uom_id') == null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر نص جملة بوحدة(<span
                                     class="parentuomname"></span>)</label>
@@ -166,7 +182,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_parent_counter" style="display: none;">
+                    <div class="col-md-4 related_parent_counter" @if (old('uom_id') == null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">سعر  الجملة بوحدة(<span
                                     class="parentuomname"></span>)</label>
@@ -178,7 +194,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_parent_counter" style="display: none;">
+                    <div class="col-md-4 related_parent_counter" @if (old('uom_id') == null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">سعر  تكلفة الشراء بوحدة(<span
                                     class="parentuomname"></span>)</label>
@@ -190,7 +206,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_retail_counter" style="display: none;">
+                    <div class="col-md-4 related_retail_counter"  @if (old('retail_uom_id') ==null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر القطاعى بوحدة(<span
                                     class="childuomname"></span>)</label>
@@ -202,7 +218,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_retail_counter" style="display: none;">
+                    <div class="col-md-4 related_retail_counter"  @if (old('retail_uom_id') ==null) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر النص جملة بوحدة(<span
                                     class="childuomname"></span>)</label>
@@ -214,7 +230,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_retail_counter" style="display: none;">
+                    <div class="col-md-4 related_retail_counter"  @if (old('retail_uom_id') != 1) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر  الجملة بوحدة(<span
                                     class="childuomname"></span>)</label>
@@ -226,7 +242,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-4 related_retail_counter" style="display: none;">
+                    <div class="col-md-4 related_retail_counter"  @if (old('retail_uom_id') != 1) style="display: none;" @endif>
                         <div class="form-group">
                             <label for="">السعر  الشراء  بوحدة(<span
                                     class="childuomname"></span>)</label>
@@ -303,7 +319,22 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
 </script>
 @section('scripts')
     <script src="{{ asset('assets/admin/js/inv_itemcard.js') }}"></script>
+
+    <script>
+            var uom_id = $('#uom_id').val();
+            if(uom_id !=null){
+                var name = $('#uom_id option:selected').text();
+                $('.parentuomname').text(name);
+            }
+
+            var uomretail_uom_id = $('#retail_uom_id').val();
+            if(uomretail_uom_id !=null){
+                var name = $('#retail_uom_id option:selected').text();
+                $('.childuomname').text(name);
+            }
+    </script>
 @endsection

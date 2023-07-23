@@ -61,7 +61,7 @@
                                 <td>{{ $info->inv_itemcard_categories_name }}</td>
                                 <td>{{ $info->parent_item_name }}</td>
                                 <td>{{ $info->uom_name }}</td>
-                                <td>{{ $info->retial_uom_name }}</td>
+                                <td>{{ $info->retail_uom_name }}</td>
                                 <td>
                                     @if ($info->active ==1)
                                     مفعلة

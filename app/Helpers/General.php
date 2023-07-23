@@ -15,6 +15,15 @@ function get_cols_where($model,$columns_names = array(),$where=array(),$order_fi
     $data = $model->select($columns_names)->where($where)->orderBy($order_field,$order_type)->get();
     return $data;
 }
+
+function get_cols_where_row($model,$columns_names = array(), $where =  array()){
+    $data = $model->select($columns_names)->where($where)->first();
+    return $data;
+}
+function get_cols_where_row_orderby($model,$columns_names = array(), $where =  array(),$order_field,$order_type){
+    $data = $model->select($columns_names)->where($where)->orderBy($order_field,$order_type)->first();
+    return $data;
+}
 function get_cols_where_p($model,$columns_names = array(),$where=array(),$order_field,$order_type,$pagination_counter){
     $data = $model->select($columns_names)->where($where)->orderBy($order_field,$order_type)->paginate($pagination_counter);
     return $data;

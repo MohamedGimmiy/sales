@@ -19,8 +19,8 @@ $(document).ready(function(){
         } else {
             $('.related_retail_counter').hide()
             $('#retail_uom_idDiv').hide();
-
         }
+        $('#retail_uom_id').val('');
     });
 
 
