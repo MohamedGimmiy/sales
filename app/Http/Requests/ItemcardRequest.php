@@ -31,7 +31,7 @@ class ItemcardRequest extends FormRequest
             'active' => 'required',
             'does_has_retailunit' => 'required',
             'retail_uom_id' => 'required_if:does_has_retailunit,1',
-            'retail_uom_quntToParent' => 'required_if:retail_uom_id,>,0',
+            'retail_uom_quntToParent' => 'required_if:does_has_retailunit,1',
             'price' => 'required',
             'nos_gomla_price' => 'required',
             'gomla_price' => 'required',
