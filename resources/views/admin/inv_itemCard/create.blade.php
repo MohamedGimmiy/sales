@@ -297,7 +297,7 @@
 
                         <div class="form-group text-center">
                             <button id="do_add_item_card" class="btn btn-sm btn-primary" type="submit">اضافة</button>
-                            <a href="{{ route('admin.stores.index') }}" class="btn btn-sm btn-danger">الغاء</a>
+                            <a href="{{ route('admin.itemCard.index') }}" class="btn btn-sm btn-danger">الغاء</a>
                         </div>
                     </div>
                 </div>

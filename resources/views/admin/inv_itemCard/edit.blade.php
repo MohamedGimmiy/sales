@@ -113,7 +113,6 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-
                         <div class="form-group">
                             <label for="">هل للصنف وحدة تجزئة ابن؟</label>
                             <select name="does_has_retailunit" id="does_has_retailunit" class="form-control">
@@ -293,7 +292,7 @@
 
                         <div class="form-group text-center">
                             <button id="do_edit_item_card" class="btn btn-sm btn-primary" type="submit">تعديل</button>
-                            <a href="{{ route('admin.stores.index') }}" class="btn btn-sm btn-danger">الغاء</a>
+                            <a href="{{ route('admin.itemCard.index') }}" class="btn btn-sm btn-danger">الغاء</a>
                         </div>
                     </div>
                 </div>

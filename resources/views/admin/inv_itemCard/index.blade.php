@@ -74,10 +74,10 @@
                                 <td>
                                     <a href="{{ route('admin.itemCard.edit',$info->id) }}" class="btn btn-primary btn-sm">تعديل</a>
                                     <a onclick="return confirm('هل متأكد من حذف الصنف؟')" href="{{ route('admin.itemCard.delete',$info->id) }}"class="btn btn-danger btn-sm">حذف</a>
+                                    <a href="{{ route('admin.itemCard.show',$info->id) }}" class="btn btn-info btn-sm">عرض</a>
                                 </td>
                             </tr>
                         @endforeach
-
                     </tbody>
                 </table>
                 <br>

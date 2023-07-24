@@ -287,4 +287,29 @@ class InvItemCardController extends Controller
         Inv_itemCard::where(['id'=>$id,'com_code'=>auth()->user()->com_code])->delete();
         return redirect()->route('admin.itemCard.index')->with(['success' => 'تم حذف الصنف بنجاح']);
     }
+
+
+    public function show($id)
+    {
+        $data = get_cols_where_row(new Inv_itemCard(), array('*'), array('id' => $id));
+        $com_code = auth()->user()->com_code;
+        $data['added_by_admin'] = get_field_value(new Admin(), 'name', array('id' => $data['added_by']));
+        $data['inv_itemcard_categories_name'] = get_field_value(new Inv_itemcardCategories(), 'name', array('id' => $data['inv_itemcard_categories_id']));
+        $data['parent_item_name'] = get_field_value(new Inv_itemCard(), 'name', array('id' => $data['parent_inv_itemcard_id']));
+        $data['uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $data['uom_id']));
+        if($data['does_has_retailunit']){
+            $data['retail_uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $data['retail_uom_id']));
+        }
+
+
+
+        if ($data['updated_by'] > 0 and $data['updated_by'] != null) {
+            $data['updated_by_admin'] = get_field_value(new Admin(), 'name', array('id' => $data['updated_by']));
+        }
+
+
+
+
+        return view('admin.inv_itemCard.show',compact('data'));
+    }
 }

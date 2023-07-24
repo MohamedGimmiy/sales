@@ -91,6 +91,7 @@ Route::group(['prefix'=>'admin','middleware' =>'auth:admin'], function(){
                 Route::get('/itemCard/edit/{id}',[InvItemCardController::class, 'edit'])->name('admin.itemCard.edit');
                 Route::post('/itemCard/update/{id}',[InvItemCardController::class, 'update'])->name('admin.itemCard.update');
                 Route::get('/itemCard/delete/{id}',[InvItemCardController::class, 'delete'])->name('admin.itemCard.delete');
+                Route::get('/itemCard/show/{id}',[InvItemCardController::class, 'show'])->name('admin.itemCard.show');
                 Route::post('/itemCard/ajax_search',[InvItemCardController::class, 'ajax_search'])->name('admin.itemCard.ajax_search');
                 /*  end  Item card */
 
