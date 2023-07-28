@@ -70,8 +70,6 @@ $(document).ready(function(){
         }
     });
 
-
-
     $(document).on('click','#do_add_item_card',function(e){
         var name = $('#name').val();
         if(name == ''){
@@ -191,10 +189,7 @@ $(document).ready(function(){
 
     });
 
-
-
     $(document).on('click','#do_edit_item_card',function(e){
-
         var barcode = $('#barcode').val();
         if(barcode == ''){
             alert('من فضلك ادخل باركود الصنف');
@@ -319,5 +314,78 @@ $(document).ready(function(){
         }
 
 
+    });
+
+    $(document).on('input','#search_by_text',function(e){
+        make_search();
+    });
+    $(document).on('change','#item_type_search',function(e){
+        make_search();
+    });
+    $(document).on('change','#inv_itemcard_categories_id_search',function(e){
+        make_search();
+    });
+    $(document).on('change','input[type=radio][name=searchByRadio]:checked',function(e){
+        make_search();
+    });
+
+    function make_search(){
+        var searchByText = $('#search_by_text').val();
+        var item_type = $("#item_type_search").val();
+        var searchByRadio = $("input[type=radio][name=searchByRadio]:checked").val();
+        var inv_itemcard_categories_id = $("#inv_itemcard_categories_id_search").val();
+
+        var token_search = $("#token_search").val();
+        var ajax_search_url = $("#ajax_search_url").val();
+        jQuery.ajax({
+            url: ajax_search_url,
+            type: 'post',
+            dataType: 'html',
+            cache: false,
+            data: {
+                searchByText:searchByText,
+                item_type:item_type,
+                inv_itemcard_categories_id:inv_itemcard_categories_id,
+                searchByRadio:searchByRadio,
+                "_token":token_search,
+                },
+            success: function(data){
+                $("#ajax_response_searchDiv").html(data);
+            },
+            error: function(){
+            }
+        });
+    }
+
+    $(document).on('click','#ajax_pagination_in_search a ',function(e){
+
+        e.preventDefault();
+        var searchByText = $('#search_by_text').val();
+        var item_type = $("#item_type_search").val();
+        var searchByRadio = $("input[type=radio][name=searchByRadio]:checked").val();
+        var inv_itemcard_categories_id = $("#inv_itemcard_categories_id_search").val();
+        var ajax_search_url = $("#ajax_search_url").val();
+
+        var Url = $(this).attr("href");
+        var token_search = $("#token_search").val();
+        jQuery.ajax({
+            url: Url,
+            type: 'post',
+            dataType: 'html',
+            cache: false,
+            data: {
+                searchByText:searchByText,
+                item_type:item_type,
+                inv_itemcard_categories_id:inv_itemcard_categories_id,
+                searchByRadio:searchByRadio,
+                "_token":token_search,
+                },
+            success: function(data){
+                $("#ajax_response_searchDiv").html(data);
+            },
+            error: function(){
+
+            }
+        });
     });
 });

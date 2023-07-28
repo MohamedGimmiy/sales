@@ -31,7 +31,7 @@
 
                         <div class="form-group">
                             <label for=""> باركود الصنف</label>
-                            <input type="text" class="form-control" name="barcode" value="{{ old('barcode',$data['barcode']) }}">
+                            <input type="text" id="barcode" class="form-control" name="barcode" value="{{ old('barcode',$data['barcode']) }}">
                             @error('barcode')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -66,7 +66,6 @@
                         <div class="form-group">
                             <label for="">فئة الصنف</label>
                             <select name="inv_itemcard_categories_id" id="inv_itemcard_categories_id" class="form-control">
-                                <option value="" disabled selected>اختر الفئة</option>
                                 @if (@isset($inv_itemcard_categories) && !@empty($inv_itemcard_categories))
                                     @foreach ($inv_itemcard_categories as $info)
                                         <option {{ old('inv_itemcard_categories_id',$data['inv_itemcard_categories_id']) == $info['id']? 'selected': '' }} value="{{ old('inv_itemcard_categories_id', $info->id) }}">

@@ -27,7 +27,14 @@
         <div class="card-body">
             @if (@isset($data) && !@empty($data))
             <table id="example2" class="table table-bordered table-hover">
+                <tr>
+                    <td colspan="3">
+                        <label> كود الصنف الثابت الالى من النظام</label> <br>
+                        {{ $data['item_code'] }}
+                    </td>
+                </tr>
                     <tr>
+
                         <td>
                             <label>باركود الصنف</label> <br>
                             {{ $data['barcode'] }}
@@ -179,7 +186,6 @@
                 هفوا لا توجد بيانات لعرضها
             </div>
             @endif
-
         </div>
       </div>
     </div>

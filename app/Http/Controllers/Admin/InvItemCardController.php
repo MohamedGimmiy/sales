@@ -33,7 +33,14 @@ class InvItemCardController extends Controller
                 }
             }
         }
-        return view('admin.inv_itemCard.index', compact('data'));
+        $inv_itemcard_categories = get_cols_where(
+            new Inv_itemcardCategories(),
+            array('id', 'name'),
+            array('com_code' => $com_code, 'active' => 1),
+            'id',
+            'DESC'
+        );
+        return view('admin.inv_itemCard.index', compact('data', 'inv_itemcard_categories'));
     }
 
     public function create()
@@ -283,8 +290,9 @@ class InvItemCardController extends Controller
         }
     }
 
-    public function delete($id){
-        Inv_itemCard::where(['id'=>$id,'com_code'=>auth()->user()->com_code])->delete();
+    public function delete($id)
+    {
+        Inv_itemCard::where(['id' => $id, 'com_code' => auth()->user()->com_code])->delete();
         return redirect()->route('admin.itemCard.index')->with(['success' => 'تم حذف الصنف بنجاح']);
     }
 
@@ -297,7 +305,7 @@ class InvItemCardController extends Controller
         $data['inv_itemcard_categories_name'] = get_field_value(new Inv_itemcardCategories(), 'name', array('id' => $data['inv_itemcard_categories_id']));
         $data['parent_item_name'] = get_field_value(new Inv_itemCard(), 'name', array('id' => $data['parent_inv_itemcard_id']));
         $data['uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $data['uom_id']));
-        if($data['does_has_retailunit']){
+        if ($data['does_has_retailunit']) {
             $data['retail_uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $data['retail_uom_id']));
         }
 
@@ -310,6 +318,76 @@ class InvItemCardController extends Controller
 
 
 
-        return view('admin.inv_itemCard.show',compact('data'));
+        return view('admin.inv_itemCard.show', compact('data'));
+    }
+
+    public function ajax_search(Request $request)
+    {
+        if ($request->ajax()) {
+            $search_by_text = $request->searchByText;
+            $item_type = $request->item_type;
+            $inv_itemcard_categories_id = $request->inv_itemcard_categories_id;
+            $searchByRadio = $request->searchByRadio;
+
+            $field3 = 'id';
+            $operator3 = '>';
+            $value3 = 0;
+            if ($item_type == 'all') {
+                $field1 = 'id';
+                $operator1 = '>';
+                $value = 0;
+            } else {
+                $field1 = 'item_type';
+                $operator1 = '=';
+                $value = $item_type;
+            }
+
+            if ($inv_itemcard_categories_id == 'all') {
+                $field2 = 'id';
+                $operator2 = '>';
+                $value2 = 0;
+            } else {
+                $field2 = 'inv_itemcard_categories_id';
+                $operator2 = '=';
+                $value2 = $inv_itemcard_categories_id;
+            }
+            if ($search_by_text != null) {
+                if ($searchByRadio == 'barcode') {
+                    $field3 = 'barcode';
+                    $operator3 = '=';
+                    $value3 = $search_by_text;
+                } else if ($searchByRadio == 'item_code') {
+                    $field3 = 'item_code';
+                    $operator3 = '=';
+                    $value3 = $search_by_text;
+                } else {
+                    $field3 = 'name';
+                    $operator3 = 'LIKE';
+                    $value3 = "%{$search_by_text}%";
+                }
+            }
+        }
+
+        $data = Inv_itemCard::where($field1, $operator1, $value)
+            ->where($field2, $operator2, $value2)
+            ->where($field3, $operator3, $value3)
+            ->orderBy('id', 'DESC')
+            ->paginate(PAGINATION_COUNT);
+        if (!empty($data)) {
+            foreach ($data as $info) {
+                $info['added_by_admin'] = get_field_value(new Admin(), 'name', array('id' => $info['added_by']));
+                $info['inv_itemcard_categories_name'] = get_field_value(new Inv_itemcardCategories(), 'name', array('id' => $info['inv_itemcard_categories_id']));
+                $info['parent_item_name'] = get_field_value(new Inv_itemCard(), 'name', array('id' => $info['parent_inv_itemcard_id']));
+                $info['uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $info['uom_id']));
+                $info['retail_uom_name'] = get_field_value(new Inv_uom(), 'name', array('id' => $info['retail_uom_id']));
+
+
+
+                if ($info['updated_by'] > 0 and $info['updated_by'] != null) {
+                    $info['updated_by_admin'] = get_field_value(new Admin(), 'name', array('id' => $info['updated_by']));
+                }
+            }
+        }
+        return view('admin.inv_itemCard.ajax_search', compact('data'));
     }
 }

@@ -95,17 +95,26 @@ class InvUomsController extends Controller
             $search_by_text = $request->searchByText;
             $is_master_search = $request->is_master_search;
 
-            if($is_master_search == 'all'){
+            if($search_by_text == ''){
                 $field1 = 'id';
                 $operator1 = '>';
                 $value = 0;
             } else{
-                $field1 = 'is_master';
-                $operator1 = '=';
-                $value = $is_master_search;
-            } 
+                $field1 = 'name';
+                $operator1 = 'LIKE';
+                $value = "%{$search_by_text}";
+            }
+            if($is_master_search == 'all'){
+                $field2 = 'id';
+                $operator2 = '>';
+                $value2 = 0;
+            } else{
+                $field2 = 'is_master';
+                $operator2 = '=';
+                $value2 = $is_master_search;
+            }
 
-            $data = Inv_uom::where('name','LIKE',"%{$search_by_text}%")->where($field1,$operator1,$value)->orderBy('id','DESC')->paginate(PAGINATION_COUNT);
+            $data = Inv_uom::where($field2,$operator2,$value2)->where($field1,$operator1,$value)->orderBy('id','DESC')->paginate(PAGINATION_COUNT);
             if(!empty($data)){
 
                 foreach($data as $info){
