@@ -131,7 +131,7 @@
                             <select name="retail_uom_id" id="retail_uom_id" class="form-control">
                                 @if (@isset($inv_uoms_child) && !@empty($inv_uoms_child))
                                     @foreach ($inv_uoms_child as $info)
-                                        <option {{ old('retail_uom_id',$data['uom_id']) == $info['id']? 'selected': '' }} value="{{ old('retail_uom_id', $info->id) }}">{{ $info->name }}</option>
+                                        <option {{ old('retail_uom_id',$data['retail_uom_id']) == $info['id']? 'selected': '' }} value="{{ old('retail_uom_id', $info->id) }}">{{ $info->name }}</option>
                                     @endforeach
                                 @endif
                             </select>
